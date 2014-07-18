@@ -1,5 +1,5 @@
-aztec-map
-=========
+AZTEC TWITTER MAP:
+------------------
 
 A demo using the d3 javascript library to render a map of the UK, and plot locations and tweet volumes based on data received from Twitter.
 

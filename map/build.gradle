@@ -1,0 +1,54 @@
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-snapshot" }
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.4.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+apply plugin: 'war'
+
+jar {
+    baseName = 'map'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-release" }
+}
+
+dependencies {
+    compile "org.slf4j:slf4j-api"
+    runtime "org.slf4j:jcl-over-slf4j"
+    compile "ch.qos.logback:logback-classic"
+	compile "commons-io:commons-io:2.4"
+		
+    compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework:spring-core'
+	compile 'org.springframework.social:spring-social-core'
+	compile 'org.springframework.social:spring-social-twitter'
+	compile 'org.springframework:spring-jdbc'
+	
+	compile 'org.scribe:scribe:1.3.5'
+	compile 'com.h2database:h2:1.3.175'
+	
+	runtime 'com.fasterxml.jackson.core:jackson-core:2.2.2'
+	runtime 'com.fasterxml.jackson.core:jackson-databind:2.2.2'
+	
+	testCompile 'junit:junit:4.11'
+	testCompile 'org.springframework:spring-test:4.0.3.RELEASE'
+	testCompile "org.mockito:mockito-all:1.9.5"
+    testCompile("junit:junit")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
