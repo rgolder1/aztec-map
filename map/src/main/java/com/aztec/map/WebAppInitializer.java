@@ -1,33 +1,13 @@
 package com.aztec.map;
 
-import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 
-import javax.servlet.Filter;
+public class WebAppInitializer extends SpringBootServletInitializer {
 
-public class WebAppInitializer extends
-    AbstractAnnotationConfigDispatcherServletInitializer {
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Application.class);
+    }
 
-  @Override
-  protected Class<?>[] getRootConfigClasses() {
-    return new Class<?>[] { /*PersistenceConfig.class, CoreConfig.class*/ };
-  }
-
-  @Override
-  protected Class<?>[] getServletConfigClasses() {
-    return new Class<?>[] { /*WebConfig.class*/ };
-  }
-
-  @Override
-  protected String[] getServletMappings() {
-    return new String[] { "/" };
-  }
-
-  @Override
-  protected Filter[] getServletFilters() {
-
-    CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-    characterEncodingFilter.setEncoding("UTF-8");
-    return new Filter[] { characterEncodingFilter};
-  }
 }

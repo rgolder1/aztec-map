@@ -1,7 +1,6 @@
 package com.aztec.map.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -43,6 +42,10 @@ public class TopTrendConsumer implements InitializingBean {
     	List<City> latestTrends = lookupTopTrendsByCity();
     	if(latestTrends!=null) {
     		topTrends = latestTrends;
+
+    		City firstCity = topTrends.get(0);
+        	List<TweetCount> tweetCount = firstCity.getCounts();
+        	log.info("updateTopTrendsByCity: city ["+firstCity.getName()+"] count ["+tweetCount+"].");
     	}
     }
     
@@ -51,7 +54,7 @@ public class TopTrendConsumer implements InitializingBean {
     }
     
 	protected List<City> lookupTopTrendsByCity() {
-		log.debug("Looking up top trends by city.");
+		log.info("Looking up top trends by city.");
 
 		try {
 			SearchOperations ops = twitterTemplate.searchOperations();
@@ -62,19 +65,21 @@ public class TopTrendConsumer implements InitializingBean {
 			SearchParameters searchParameters = new SearchParameters(topTrend.getQuery());
 			searchParameters.count(100);
 			
-			log.debug("Top trend: name ["+topTrend.getName()+"] query ["+topTrend.getQuery()+"].");
-	    	
+			log.info("Top trend: name ["+topTrend.getName()+"] query ["+topTrend.getQuery()+"].");
+
+    		int i=1;
 	    	for(City city : cities) {
-	    		log.debug("City: "+city.getName());
-	
 	    		GeoCode geoCode = new GeoCode(city.getLatitude().doubleValue(), city.getLongitude().doubleValue(), 10, Unit.MILE);
 	    		searchParameters.geoCode(geoCode);
 	    		SearchResults results = ops.search(searchParameters);
-	    		
+
 	    		long count = 0l;
 	    		if(results!=null && results.getTweets()!=null) {
 	    			count = results.getTweets().size();
-	        		log.debug("City: name ["+city.getName()+"] count ["+count+"].");
+	    			if(i<4) {
+	    				log.info("City "+i+": name ["+city.getName()+"] count ["+count+"].");
+	    			}
+	        		i++;
 	    		}
 	    		List<TweetCount> counts = new ArrayList<>(1);
 	    		counts.add(new TweetCount(topTrend.getName(), count));
@@ -84,12 +89,13 @@ public class TopTrendConsumer implements InitializingBean {
 			log.warn("Rate limit exceeded.");
 			return null;
 		}
-		log.debug("Looked up top trends by city.");
+		log.info("Looked up top trends by city.");
     	return cities;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		log.info("afterPropertiesSet()");
 		cities = placeDao.getCities();
 		topTrends = cities;
 	}

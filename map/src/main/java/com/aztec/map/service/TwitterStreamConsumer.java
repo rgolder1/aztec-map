@@ -75,7 +75,7 @@ public class TwitterStreamConsumer implements Runnable {
     
     @Scheduled(initialDelay=0, fixedRateString="${team.tweet.count.capture.period.milliseconds}")
     public synchronized void resetTweetCounts() {
-        log.debug("Updating tweet counts.");
+        log.info("Updating tweet counts.");
     	lastTweetCount.clear();
     	lastTweetCount.putAll(newTweetCount);
     	newTweetCount.clear();
@@ -91,6 +91,7 @@ public class TwitterStreamConsumer implements Runnable {
 
     @Override
     public void run() {
+    	log.info("Running stream capture.");
     	state = State.RUNNING;
     	
     	Map<Integer, List<String>> keyWordsMap = mapDao.getKeyWords();
@@ -118,10 +119,14 @@ public class TwitterStreamConsumer implements Runnable {
         // Create a reader to read Twitter's stream
         try(InputStream inputStream = response.getStream(); BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             String line = null;
+            int i=0;
             while (state==State.RUNNING && (line = reader.readLine()) != null) {
                 
             	line = line.toLowerCase();
-            	
+            	if(i==0) {
+            		log.info("First line of Twitter stream: "+line);
+            	}
+            	i++;
             	if(line.equals(EXCEEDED_CONNECTION_LIMIT_WARNING)) {
             		state = State.STOPPED;
             		log.error("The connection limit has been exceeded.");
@@ -136,6 +141,7 @@ public class TwitterStreamConsumer implements Runnable {
     	}
         resetTweetCounts();
         state = State.STOPPED;
+        log.info("Stopped stream capture.");
     }
 
     /**

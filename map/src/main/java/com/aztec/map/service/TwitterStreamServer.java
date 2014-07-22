@@ -21,6 +21,7 @@ public class TwitterStreamServer {
 	 */
 	@Scheduled(initialDelay=0, fixedRateString="${team.tweet.count.check.stream.alive.period.milliseconds}")
 	public void validateStreamCapture() {
+        log.info("Validating stream capture is running.");
 		if(!streamConsumer.isRunning()) {
  			while(!streamConsumer.isReadyToStart()){
 				try {
@@ -31,6 +32,7 @@ public class TwitterStreamServer {
  			log.info("Starting stream capture.");
 			new Thread(streamConsumer).start();
 		}
+        log.info("Validated stream capture is running.");
 	}
 	
 	public TwitterStreamConsumer getConsumer() {

@@ -21,7 +21,7 @@ public class MapService {
 	private MapDao mapDao;
 	
 	public List<Team> getTeams() {
-		log.debug("Getting teams.");
+		log.info("Getting teams.");
     	List<Team> teams = mapDao.getTeams();
     	
     	for(Team team : teams) {

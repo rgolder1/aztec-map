@@ -67,7 +67,7 @@ public class PlaceService {
 	}
 
 	public List<City> getCities() {
-		log.debug("Getting cities.");
+		log.info("Getting cities.");
 
     	return topTrendConsumer.getTopTrendsByCity();
 	}
