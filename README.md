@@ -12,6 +12,7 @@ View here:  http://aztec.cfapps.io/
 The maps show:
 
 1) The relative volume of tweets on the current top trending Twitter topic around the country are plotted on the map.
+
 2) The number of tweets for each Premiership football club.
 
 This app was previously deployed on Google App Engine.  http://aztectwittermap.appspot.com/
