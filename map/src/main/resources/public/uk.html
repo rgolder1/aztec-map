@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <head>
-<title>Premiership Football Team Tweet Counts</title>
+<title>English Premiership Football Team Tweet Counts</title>
 </head>
 <meta charset="utf-8">
 <style type="text/css">
@@ -11,11 +11,6 @@
 .subunit.NIR { fill: #c8d3bd; }
 .subunit.ENG { fill: #d5ddcc; }
 .subunit.IRL { fill: #d9ddcc; }
-
-/* .subunit.IRL,
-.subunit-label.IRL {
-  display: none;
-} */
 
 .subunit-boundary {
   fill: none;
@@ -28,10 +23,6 @@
   stroke: none;
 }
 
-/* .subunit-boundary.IRL {
-  stroke: #aaa;
-} */ 
-
 .subunit-label {
   fill: #777;
   fill-opacity: .5;
@@ -40,84 +31,64 @@
   text-anchor: middle;
 }
 
-/* .place,
-.place-label {
-  fill: #444;
-} */
-
 text {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 10px;
   pointer-events: none;
 }
 
+h3 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-type: bold;
+  pointer-events: none;
+}
+
+p {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+
 circle:hover {
     fill: orange;
 }
 
+#map {
+  border:1px solid #000;
+  width:900px;
+  height:960px;
+}
+
 </style>
 <body>
+<h3>English Premiership Football Team Tweet Counts</h3>
+
+<p>Map of the UK showing the number of tweets per minute for each team in the Premiership for season 2013/2014.</p>
+<p>Hover over a team to view the total number of tweets.  The tweet count is automatically updated every minute.  The map can be zoomed and panned.</p>
+<div id="map">
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script>
 	
-var width = 960,
-    height = 1160;
+var width = 900,
+    height = 960;
 
 var projection = d3.geo.albers()
     .center([0, 55.4])
     .rotate([4.4, 0])
     .parallels([50, 60])
-    .scale(1200 * 5)
-    .translate([width / 2, height / 2]);
+    .scale(1200 * 6)
+    .translate([width / 2 - 80, height / 2 - 220]);
 
 var path = d3.geo.path()
     .projection(projection)
     .pointRadius(2);
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#map").append("svg")
     .attr("width", width)
-    .attr("height", height);	
+    .attr("height", height);
 
-svg.append("text")
-.attr("x", width / 2 )
-.attr("y", 20)
-.style("font-size", "16px") 
-.style("text-anchor", "middle")
-.style("text-decoration", "underline") 
-.text("Premiership Football Team Tweet Counts");
-
-svg.append("text")
-.attr("x", 20 )
-.attr("y", 80)
-.style("font-size", "14px") 
-.style("font-style", "italic")
-.style("text-anchor", "left") 
-.text("Map of the UK showing the number of tweets per minute");
-
-svg.append("text")
-.attr("x", 20 )
-.attr("y", 100)
-.style("font-size", "14px") 
-.style("font-style", "italic")
-.style("text-anchor", "left") 
-.text("for each team in the Premiership for season 2013/2014.");
-
-svg.append("text")
-.attr("x", 20 )
-.attr("y", 140)
-.style("font-size", "14px") 
-.style("font-style", "italic")
-.style("text-anchor", "left") 
-.text("Hover over a team to view the total number of tweets.");
-
-svg.append("text")
-.attr("x", 20 )
-.attr("y", 180)
-.style("font-size", "14px") 
-.style("font-style", "italic")
-.style("text-anchor", "left") 
-.text("The tweet count is automatically updated every minute.");
+var g = svg.append("g");
 
 var draw = function(initial) {
 
@@ -128,23 +99,23 @@ var draw = function(initial) {
 		  var subunits = topojson.feature(uk, uk.objects.subunits),
 		      places = topojson.feature(uk, uk.objects.places);
 		
-		  svg.selectAll(".subunit")
+		  g.selectAll(".subunit")
 		      .data(subunits.features)
 		    .enter().append("path")
 		      .attr("class", function(d) { return "subunit " + d.id; })
 		      .attr("d", path);
 		
-		  svg.append("path")
+		  g.append("path")
 		      .datum(topojson.mesh(uk, uk.objects.subunits, function(a, b) { return a !== b && a.id !== "IRL"; }))
 		      .attr("d", path)
 		      .attr("class", "subunit-boundary");
 		
-		  svg.append("path")
+		  g.append("path")
 		      .datum(topojson.mesh(uk, uk.objects.subunits, function(a, b) { return a === b && a.id === "IRL"; }))
 		      .attr("d", path)
 		      .attr("class", "subunit-boundary IRL");
 		
-		  svg.selectAll(".subunit-label")
+		  g.selectAll(".subunit-label")
 		      .data(subunits.features)
 		    .enter().append("text")
 		      .attr("class", function(d) { return "subunit-label " + d.id; })
@@ -163,7 +134,7 @@ var draw = function(initial) {
 	    		svg.selectAll("#locationCircle").remove();
 	    	}
 	    	
-		    svg.selectAll("twitterCountCircle")
+		    g.selectAll("twitterCountCircle")
 			    .data(data.sort(function(a, b) { return b.count - a.count; }))
 			    .enter()
 			    .append("circle")
@@ -187,7 +158,7 @@ var draw = function(initial) {
 			   		return d.count+" tweets about "+d.name;
 			     }); 
 		    	
-			 svg.selectAll("locationCircle")
+			 g.selectAll("locationCircle")
 			    .data(data)
 			    .enter()
 		        .append("circle")
@@ -206,12 +177,12 @@ var draw = function(initial) {
 		        
 		        .append("svg:title")
 		   		.text(function(d) { return d.name; });
-		 
-				locationNames = svg.selectAll("locationNames")
+			 
+				g.selectAll("locationNames")
 			      .data(data)
 			      .enter().append("text")
 			      .attr("id", "locationNames")
-			      .attr("class", "place-label")
+			      //.attr("class", "place-label")
 			      .attr("transform", function(d) { return "translate(" + projection([d.longitude,d.latitude]) + ")"; })
 			      //.attr("x", function(d) { return [d.longitude,d.latitude][0] > -1 ? 6 : -6; })
 			      .attr("x", function(d) {
@@ -235,39 +206,35 @@ var draw = function(initial) {
 			    	  return textAnchor; 
 			      }) 
 			      .text(function(d) { return d.name; }); 
-	   				
+				
 			return "translate(" + projection([d.long,d.lat]) + ")";	  
 	  }); 
 	  
 	});
 }
 
-//Polling
 var globalPollingInterval = 45000; // 15s = 15000ms
 
 var update = function() {
     draw(false);
     setTimeout(update, globalPollingInterval);
 }
-
-// main logic
-// call draw and setup polling
 draw(true);
 setTimeout(update, globalPollingInterval);   
    
-/* var zoom = d3.behavior.zoom()
+var zoom = d3.behavior.zoom()
+.scaleExtent([1, 5])
 .on("zoom",function() {
     g.attr("transform","translate("+ 
         d3.event.translate.join(",")+")scale("+d3.event.scale+")");
     g.selectAll("path")  
-        .attr("d", path.projection(projection)); 
+        .attr("d", path.projection(projection));
 });
 
-svg.call(zoom); */
-
-
-/* .style("stroke", "yellow")
-.style("stroke-width", 55)
-.style("stroke-opacity", 0.75); */
+svg.call(zoom);
 
 </script>
+</div>
+<p>Back to <a href="index.html">Maps Index</a>.</p>
+</body>
+</html>

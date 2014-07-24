@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <head>
-<title>Top Trending Topic - Volume By City</title>
+<title>Top Trending Twitter Topic - Volume By City</title>
 </head>
 <meta charset="utf-8">
 <style type="text/css">
@@ -11,11 +11,6 @@
 .subunit.NIR { fill: #c8d3bd; }
 .subunit.ENG { fill: #d5ddcc; }
 .subunit.IRL { fill: #d9ddcc; }
-
-/* .subunit.IRL,
-.subunit-label.IRL {
-  display: none;
-} */
 
 .subunit-boundary {
   fill: none;
@@ -28,10 +23,6 @@
   stroke: none;
 }
 
-/* .subunit-boundary.IRL {
-  stroke: #aaa;
-} */ 
-
 .subunit-label {
   fill: #777;
   fill-opacity: .5;
@@ -40,98 +31,63 @@
   text-anchor: middle;
 }
 
-/* .place,
-.place-label {
-  fill: #444;
-} */
-
 text {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 10px;
   pointer-events: none;
 }
 
+h3 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-type: bold;
+  pointer-events: none;
+}
+
+p {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+
 circle:hover {
     fill: orange;
 }
 
-/* .legend text {
-  fill: #777;
-  font: 10px sans-serif;
-  text-anchor: middle;
-} */
+#map {
+  border:1px solid #000;
+  width:960px;
+  height:960px;
+}
 
 </style>
 <body>
+<h3>Top Trending Twitter Topic - Tweet Volume By City</h3>
+<p>Map of the UK showing the relative volume of tweets around the country on the current top trending Twitter topic.  Hover over a city to view the top trending topic.</p>
+<p>The top trending topic is updated every 5 minutes.  The tweet count is updated every minute.  The updates automatically are reflected in the browser.  The map can be zoomed and panned.</p>
+<div id="map">
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script>
 
 var width = 960,
-    height = 1160;
+    height = 960;
 
 var projection = d3.geo.albers()
     .center([0, 55.4])
     .rotate([4.4, 0])
     .parallels([50, 60])
     .scale(1200 * 5)
-    .translate([width / 2, height / 2]);
+    .translate([width / 2, height / 2 - 120]);
 
 var path = d3.geo.path()
     .projection(projection)
     .pointRadius(2);
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#map").append("svg")
     .attr("width", width)
     .attr("height", height);
-    
-svg.append("text")
-.attr("x", width / 2 - 30)
-.attr("y", 20)
-.style("font-size", "16px") 
-.style("text-anchor", "middle")
-.style("text-decoration", "underline") 
-.text("Top Trending Twitter Topic - Tweet Volume By City");
 
-svg.append("text")
-.attr("x", 20 )
-.attr("y", 80)
-.style("font-size", "14px") 
-.style("font-style", "italic")
-.style("text-anchor", "left") 
-.text("Map of the UK showing the relative volume of tweets");
-
-svg.append("text")
-.attr("x", 20 )
-.attr("y", 100)
-.style("font-size", "14px") 
-.style("font-style", "italic")
-.style("text-anchor", "left") 
-.text("around the country on the current top trending topic.");
-
-svg.append("text")
-.attr("x", 20 )
-.attr("y", 140)
-.style("font-size", "14px") 
-.style("font-style", "italic")
-.style("text-anchor", "left") 
-.text("Hover over a city to view the top trending topic.");
-
-svg.append("text")
-.attr("x", 20 )
-.attr("y", 180)
-.style("font-size", "14px") 
-.style("font-style", "italic")
-.style("text-anchor", "left") 
-.text("The top trending topic is updated every 5 minutes.  The");
-
-svg.append("text")
-.attr("x", 20 )
-.attr("y", 200)
-.style("font-size", "14px") 
-.style("font-style", "italic")
-.style("text-anchor", "left") 
-.text("updates are reflected in the browser every few minutes.");
+var g = svg.append("g");
 
 var draw = function(initial) {
 	
@@ -139,23 +95,23 @@ var draw = function(initial) {
 	  var subunits = topojson.feature(uk, uk.objects.subunits),
 	      places = topojson.feature(uk, uk.objects.places);
 	
-	  svg.selectAll(".subunit")
+	  g.selectAll(".subunit")
 	      .data(subunits.features)
 	    .enter().append("path")
 	      .attr("class", function(d) { return "subunit " + d.id; })
 	      .attr("d", path);
 	
-	  svg.append("path")
+	  g.append("path")
 	      .datum(topojson.mesh(uk, uk.objects.subunits, function(a, b) { return a !== b && a.id !== "IRL"; }))
 	      .attr("d", path)
 	      .attr("class", "subunit-boundary");
 	
-	  svg.append("path")
+	  g.append("path")
 	      .datum(topojson.mesh(uk, uk.objects.subunits, function(a, b) { return a === b && a.id === "IRL"; }))
 	      .attr("d", path)
 	      .attr("class", "subunit-boundary IRL");
 	
-	  svg.selectAll(".subunit-label")
+	  g.selectAll(".subunit-label")
 	      .data(subunits.features)
 	    .enter().append("text")
 	      .attr("class", function(d) { return "subunit-label " + d.id; })
@@ -173,7 +129,7 @@ var draw = function(initial) {
 	    		svg.selectAll("#locationCircle").remove();
 	    	}	   
 	      
-		   svg.selectAll("twitterCountCircle")
+		   g.selectAll("twitterCountCircle")
 		    .data(data.sort(function(a, b) {
 		    	var aCount;
 		    	if(a.counts==null) {
@@ -222,9 +178,8 @@ var draw = function(initial) {
 		    	 }
 		   		return tweet;
 		     }); 
-		   
-		   
-		  svg.selectAll("locationCircle")
+		   	   
+		  g.selectAll("locationCircle")
 		    .data(data)
 		    .enter()
 	        .append("circle")
@@ -243,35 +198,16 @@ var draw = function(initial) {
 	        
 	        .append("svg:title")
 	   		.text(function(d) { return d.name; });
-	      
-		  
-		svg.selectAll("locationNames")
+	      	  
+		g.selectAll("locationNames")
 	      .data(data)
 	      .enter().append("text")
 	      .attr("id", "locationNames")
 	      .attr("class", "place-label")
 	      .attr("transform", function(d) { return "translate(" + projection([d.longitude,d.latitude]) + ")"; })
 	      .attr("x", function(d) { return [d.longitude,d.latitude][0] > -1.2 ? 6 : -6; })
-	      /* .attr("x", function(d) {
-	    	  var x;
-	    	  if(d.labelAlign!="") {
-	    		  x = d.labelAlign=="right"?6:-6;
-	    	  } else {
-	    		  x = [d.longitude,d.latitude][0] > -1 ? 6 : -6;
-	    	  }
-	    	  return x; 
-	      })  */
 	      .attr("dy", ".35em")
 	      .style("text-anchor", function(d) { return [d.longitude,d.latitude][0] > -1.2 ? "start" : "end"; })
-	      /* .style("text-anchor", function(d) {
-	    	  var textAnchor;
-	    	  if(d.labelAlign!="") {
-	    		  textAnchor = d.labelAlign=="right"?"start":"end";
-	    	  } else {
-	    		  textAnchor = [d.longitude,d.latitude][0] > -1 ? "start" : "end";
-	    	  }
-	    	  return textAnchor; 
-	      }) */ 
 	      .text(function(d) { return d.name; }); 
 		
 		  return "translate(" + projection([d.long,d.lat]) + ")";	  
@@ -280,16 +216,27 @@ var draw = function(initial) {
 	});
 }
 
-//Polling
 var globalPollingInterval = 180000; // 60s = 60000ms
 
 var update = function() {
   draw(false);
   setTimeout(update, globalPollingInterval);
 }
-
-//main logic
-//call draw and setup polling
 draw(true);
 setTimeout(update, globalPollingInterval);   
+var zoom = d3.behavior.zoom()
+.scaleExtent([1, 5])
+.on("zoom",function() {
+    g.attr("transform","translate("+ 
+        d3.event.translate.join(",")+")scale("+d3.event.scale+")");
+    g.selectAll("path")  
+        .attr("d", path.projection(projection));
+});
+
+svg.call(zoom);
+
 </script>
+</div>
+<p>Back to <a href="index.html">Maps Index</a>.</p>
+</body>
+</html>
