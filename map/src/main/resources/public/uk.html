@@ -48,6 +48,10 @@ text {
   pointer-events: none;
 }
 
+circle:hover {
+    fill: orange;
+}
+
 </style>
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -75,10 +79,50 @@ var svg = d3.select("body").append("svg")
 svg.append("text")
 .attr("x", width / 2 )
 .attr("y", 20)
-.style("font-size", "14px") 
+.style("font-size", "16px") 
 .style("text-anchor", "middle")
 .style("text-decoration", "underline") 
-.text("Tweet Volumes Per Minute For Premiership Teams");
+.text("Tweet Counts For Premiership Teams");
+
+svg.append("text")
+.attr("x", 20 )
+.attr("y", 80)
+.style("font-size", "14px") 
+.style("font-style", "italic")
+.style("text-anchor", "left") 
+.text("Map of the UK showing the number of tweets per minute");
+
+svg.append("text")
+.attr("x", 20 )
+.attr("y", 100)
+.style("font-size", "14px") 
+.style("font-style", "italic")
+.style("text-anchor", "left") 
+.text("for each team in the Premiership for season 2013/2014.");
+
+svg.append("text")
+.attr("x", 20 )
+.attr("y", 140)
+.style("font-size", "14px") 
+.style("font-style", "italic")
+.style("text-anchor", "left") 
+.text("Hover over a team to view the total number of tweets.");
+
+svg.append("text")
+.attr("x", 20 )
+.attr("y", 180)
+.style("font-size", "14px") 
+.style("font-style", "italic")
+.style("text-anchor", "left") 
+.text("The tweet count is updated every minute.");
+
+svg.append("text")
+.attr("x", 20 )
+.attr("y", 200)
+.style("font-size", "14px") 
+.style("font-style", "italic")
+.style("text-anchor", "left") 
+.text("Refresh the browser to see the updates.");
 
 d3.json("uk.json", function(error, uk) {
   var subunits = topojson.feature(uk, uk.objects.subunits),
@@ -107,21 +151,6 @@ d3.json("uk.json", function(error, uk) {
       .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
       .attr("dy", ".35em")
       .text(function(d) { return d.properties.name; });
-
-  /* svg.append("path")
-      .datum(places)
-      .attr("d", path)
-      .attr("class", "place"); */
-
-  /* svg.selectAll(".place-label")
-      .data(places.features)
-    .enter().append("text")
-      .attr("class", "place-label")
-      .attr("transform", function(d) { return "translate(" + projection(d.geometry.coordinates) + ")"; })
-      .attr("x", function(d) { return d.geometry.coordinates[0] > -1 ? 6 : -6; })
-      .attr("dy", ".35em")
-      .style("text-anchor", function(d) { return d.geometry.coordinates[0] > -1 ? "start" : "end"; })
-      .text(function(d) { return d.properties.name; }); */
      
       
    //d3.json("http://localhost:8080/data/teams", function(error, data) {
@@ -138,14 +167,17 @@ d3.json("uk.json", function(error, uk) {
 	              return projection([d.longitude, d.latitude])[1];
 	     })
 	     .attr("r", function(d) {
-				//return Math.sqrt(parseInt(d.count) * 0.00004);
 			  return Math.sqrt(parseInt(d.count) * 10);
 	     })
-	     .style("fill", "yellow")
+	     .attr("fill", "yellow")
 	     .style("opacity", 0.75)
 	     .style("stroke", "black")
 	     .style("stroke-width", 0.2)
-	     .style("stroke-opacity", 0.8); 
+	     .style("stroke-opacity", 0.8)
+	     .append("title")
+	     .text(function(d) {
+	   		return d.count+" tweets about "+d.name;
+	     }); 
 	   
 	   
 	  svg.selectAll("locationCircle")

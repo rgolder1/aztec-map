@@ -10,10 +10,11 @@ import org.springframework.stereotype.Component;
 public class TwitterStreamServer {
 	private static Logger log = LoggerFactory.getLogger(TwitterStreamServer.class);
 
-	@Autowired
 	private TwitterStreamConsumer streamConsumer;
-	
-	public TwitterStreamServer() {
+
+	@Autowired	
+	public TwitterStreamServer(TwitterStreamConsumer streamConsumer) {
+		this.streamConsumer = streamConsumer;
 	}
 	
 	/**

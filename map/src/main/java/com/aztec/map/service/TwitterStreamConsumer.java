@@ -147,7 +147,7 @@ public class TwitterStreamConsumer implements Runnable {
     /**
      * Update the tweet count for the required team.
      */
-	private void processTweet(Map<Integer, List<String>> keyWordsMap, String line) {
+	protected void processTweet(Map<Integer, List<String>> keyWordsMap, String line) {
 		Set<Integer> teamIds = keyWordsMap.keySet();
 		
 		for(Integer teamId : teamIds) {
@@ -176,7 +176,7 @@ public class TwitterStreamConsumer implements Runnable {
 	/**
 	 * Get all the keywords.  These are used to determine which tweets our stream picks up.
 	 */
-	private String getAllKeyWords(Map<Integer, List<String>> keyWordsMap) {		
+	protected String getAllKeyWords(Map<Integer, List<String>> keyWordsMap) {		
 		StringBuilder allKeyWords = new StringBuilder();
 		Collection<List<String>> values = keyWordsMap.values();
 		

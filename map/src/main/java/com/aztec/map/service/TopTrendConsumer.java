@@ -36,6 +36,9 @@ public class TopTrendConsumer implements InitializingBean {
 	private List<City> cities;
 
     private static List<City> topTrends = new ArrayList<>();
+    
+    // Yahoo's WhereOnEarth ID for the UK.
+    private static final Integer UK_WOE_ID = 23424975;
 
     @Scheduled(initialDelay=0, fixedRateString="${team.tweet.top.trend.capture.period.milliseconds}")
     public void updateTopTrendsByCity() {
@@ -59,7 +62,7 @@ public class TopTrendConsumer implements InitializingBean {
 		try {
 			SearchOperations ops = twitterTemplate.searchOperations();
 			
-			Trends trends = ops.getLocalTrends(23424975);
+			Trends trends = ops.getLocalTrends(UK_WOE_ID);
 			List<Trend> trendList = trends.getTrends();
 			Trend topTrend = trendList.get(0);
 			SearchParameters searchParameters = new SearchParameters(topTrend.getQuery());
