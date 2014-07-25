@@ -146,6 +146,12 @@ var draw = function(initial) {
 		    	return bCount - aCount;
 		    }))
 		    .enter()
+		     .append("svg:a")
+		     .attr("xlink:href", function(d){
+		     	 var topTrend = getTweet(d).replace("#","%23"); 
+		    	 return "https://twitter.com/search?f=realtime&q="+topTrend;
+		     })
+		     .attr("target", "_blank")
 		    .append("circle")
 		    .attr("id", "twitterCountCircle")
 		    .attr("cx", function(d) {
@@ -170,13 +176,7 @@ var draw = function(initial) {
 		     .style("stroke-opacity", 0.8)
 		     .append("title")
 		     .text(function(d) {
-		    	 var tweet;
-		    	 if(d.counts==null) {
-		    		 tweet = "";
-		    	 } else {
-			    	 tweet = d.counts[0].tweet;
-		    	 }
-		   		return tweet;
+		   		return getTweet(d);
 		     }); 
 		   	   
 		  g.selectAll("locationCircle")
@@ -214,6 +214,16 @@ var draw = function(initial) {
 	  }); 
 	   
 	});
+}
+	
+var getTweet = function(data) {
+	var tweet;
+	 if(data.counts==null) {
+		 tweet = "";
+	 } else {
+   	 tweet = data.counts[0].tweet;
+	 }
+	 return tweet;
 }
 
 var globalPollingInterval = 180000; // 60s = 60000ms

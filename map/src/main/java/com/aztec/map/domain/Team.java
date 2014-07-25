@@ -11,6 +11,7 @@ public class Team {
 	private BigDecimal latitude;
 	private BigDecimal longitude;
 	private Long count;
+	private String searchTerm;
 	private String labelAlign;
 
 	public Integer getId() {
@@ -67,6 +68,14 @@ public class Team {
 
 	public void setLabelAlign(String labelAlign) {
 		this.labelAlign = labelAlign;
+	}
+
+	public String getSearchTerm() {
+		return searchTerm;
+	}
+
+	public void setSearchTerm(String searchTerm) {
+		this.searchTerm = searchTerm;
 	}
 	
 	public Long getCount() {

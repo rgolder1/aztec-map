@@ -21,6 +21,7 @@ public class TeamRowMapper implements RowMapper<Team> {
 		team.setLeague(rs.getString("league"));
 		team.setLatitude(rs.getBigDecimal("latitude"));
 		team.setLongitude(rs.getBigDecimal("longitude"));
+		team.setSearchTerm(rs.getString("search_term"));
 		String labelAlign = rs.getString("label_align");
 		team.setLabelAlign(labelAlign==null?"":labelAlign);
 		

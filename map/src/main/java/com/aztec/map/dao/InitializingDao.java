@@ -15,8 +15,8 @@ import org.springframework.util.StringUtils;
 public class InitializingDao {
 	private static Logger log = Logger.getLogger(InitializingDao.class.getName());
 
-	private static final String INSERT_TEAM_SQL = "INSERT INTO team (id, name, ground, league, latitude, longitude, label_align) " +
-			"values (?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_TEAM_SQL = "INSERT INTO team (id, name, ground, league, latitude, longitude, search_term, label_align) " +
+			"values (?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private static final String INSERT_KEYWORDS_SQL = "INSERT INTO keyword (id, team_id, word) " +
 			"values (?, ?, ?)";

@@ -5,6 +5,7 @@ create table team(
 	league varchar(16) not null,
 	latitude decimal not null,
 	longitude decimal not null,
+	search_term varchar(32) not null,
 	label_align varchar(10) null,
 	CONSTRAINT pk_team PRIMARY KEY (id)
 );
@@ -33,15 +34,3 @@ create table city(
 	longitude decimal not null,
 	CONSTRAINT pk_city PRIMARY KEY (id)
 );
-
---insert into team values(1, 'Liverpool', 'Anfield', 'Premiership', 53.4308014, -2.9611001);
---insert into team values(2, 'Manchester United', 'Old Trafford', 'Premiership', 53.476498, -2.282984);
---
---insert into keyword values(1, 1, 'liverpool');
---insert into keyword values(2, 1, 'liverpoolfc');
---insert into keyword values(3, 1, 'lfc');
---insert into keyword values(4, 2, 'manchester united');
---insert into keyword values(5, 2, 'manutd');
---insert into keyword values(7, 2, 'man utd');
---insert into keyword values(8, 2, 'manchesterutd');
---insert into keyword values(9, 2, 'manchester utd');

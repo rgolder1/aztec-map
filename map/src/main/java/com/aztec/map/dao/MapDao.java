@@ -15,7 +15,7 @@ import com.aztec.map.domain.Team;
 @Repository
 public class MapDao {
 	
-	private static final String GET_TEAMS_SQL = "select id, name, ground, league, latitude, longitude, label_align from team order by id";
+	private static final String GET_TEAMS_SQL = "select id, name, ground, league, latitude, longitude, search_term, label_align from team order by id";
 
 	private static final String GET_KEYWORDS_SQL = "select id, team_id, word from keyword order by team_id";
 

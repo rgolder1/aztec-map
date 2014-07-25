@@ -1,21 +1,21 @@
-id,name,ground,league,latitude,longitude,label_align
-1,Arsenal F.C.,Emirates Stadium,Premiership,51.5583801,-0.10559,left
-2,Aston Villa F.C.,Villa Park,Premiership,52.5080185,-1.88413,right
-3,Burnley F.C.,Turf Moor,Premiership,53.7883797,-2.23036,
-4,Hull City A.F.C.,KC Stadium,Premiership,53.7469292,-0.36873,
-5,Leicester City F.C.,King Power Stadium,Premiership,52.6212196,-1.1433901,
-6,Liverpool F.C.,Anfield,Premiership,53.4308014,-2.9611001,
-7,Manchester United F.C.,Old Trafford,Premiership,53.476498,-2.282984,
-8,Newcastle United F.C.,St.James Park,Premiership,54.9742508,-1.6218899,
-9,Southampton F.C.,St Mary's Stadium,Premiership,50.905159,-1.39013,
-10,Stoke City F.C.,Britannia Stadium,Premiership,52.9865913,-2.1752901,
-11,Swansea City A.F.C.,Liberty Stadium,Premiership,51.6417618,-3.9344101,
-12,Manchester City F.C.,City of Manchester Stadium,Premiership,53.4828415,-2.2024801,right
-13,Chelsea F.C.,Stamford Bridge,Premiership,51.4804916,-0.18891,
-14,QPR F.C.,Loftus Road,Premiership,51.508275,-0.23046,left
-15,West Ham United F.C.,Boleyn Ground,Premiership,51.5318489,0.03797,
-16,Tottenham Hotspur F.C.,White Hart Lane,Premiership,51.6031609,-0.06783,
-17,Sunderland A.F.C,Stadium of Light,Premiership,54.9146309,-1.38565,right
-18,West Bromwich Albion F.C.,The Hawthorns,Premiership,52.5100517,-1.9644901,
-19,Everton F.C.,Goodison Park,Premiership,53.4389,-2.9663999,right
-20,Crystal Palace F.C.,Selhurst Park,Premiership,51.3982582,-0.08693,left
+id,name,ground,league,latitude,longitude,search_term,label_align
+1,Arsenal F.C.,Emirates Stadium,Premiership,51.5583801,-0.10559,Arsenal FC,left
+2,Aston Villa F.C.,Villa Park,Premiership,52.5080185,-1.88413,Aston Villa FC,right
+3,Burnley F.C.,Turf Moor,Premiership,53.7883797,-2.23036,Burnley FC,
+4,Hull City A.F.C.,KC Stadium,Premiership,53.7469292,-0.36873,Hull City FC,
+5,Leicester City F.C.,King Power Stadium,Premiership,52.6212196,-1.1433901,Leicester City FC,
+6,Liverpool F.C.,Anfield,Premiership,53.4308014,-2.9611001,Liverpool FC,
+7,Manchester United F.C.,Old Trafford,Premiership,53.476498,-2.282984,Manchester United,
+8,Newcastle United F.C.,St.James Park,Premiership,54.9742508,-1.6218899,Newcastle United,
+9,Southampton F.C.,St Mary's Stadium,Premiership,50.905159,-1.39013,Southampton FC,
+10,Stoke City F.C.,Britannia Stadium,Premiership,52.9865913,-2.1752901,Stoke City FC,
+11,Swansea City A.F.C.,Liberty Stadium,Premiership,51.6417618,-3.9344101,Swansea City AFC,
+12,Manchester City F.C.,City of Manchester Stadium,Premiership,53.4828415,-2.2024801,Manchester City FC,right
+13,Chelsea F.C.,Stamford Bridge,Premiership,51.4804916,-0.18891,Chelsea FC,
+14,QPR F.C.,Loftus Road,Premiership,51.508275,-0.23046,QPR FC,left
+15,West Ham United F.C.,Boleyn Ground,Premiership,51.5318489,0.03797,West Ham United,
+16,Tottenham Hotspur F.C.,White Hart Lane,Premiership,51.6031609,-0.06783,Tottenham Hotspur,
+17,Sunderland A.F.C,Stadium of Light,Premiership,54.9146309,-1.38565,Sunderland AFC,right
+18,West Bromwich Albion F.C.,The Hawthorns,Premiership,52.5100517,-1.9644901,West Bromwich Albion,
+19,Everton F.C.,Goodison Park,Premiership,53.4389,-2.9663999,Everton FC,right
+20,Crystal Palace F.C.,Selhurst Park,Premiership,51.3982582,-0.08693,Crystal Palace FC,left

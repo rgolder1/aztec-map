@@ -138,6 +138,9 @@ var draw = function(initial) {
 		    g.selectAll("twitterCountCircle")
 			    .data(data.sort(function(a, b) { return b.count - a.count; }))
 			    .enter()
+			     .append("svg:a")
+			     .attr("xlink:href", function(d){return "https://twitter.com/search?f=realtime&q="+d.searchTerm;})
+			     .attr("target", "_blank")
 			    .append("circle")
 			    .attr("id", "twitterCountCircle")
 			    .attr("cx", function(d) {
