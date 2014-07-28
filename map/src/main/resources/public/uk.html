@@ -37,18 +37,6 @@ text {
   pointer-events: none;
 } 
 
-h3 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  font-type: bold;
-  pointer-events: none;
-}
-
-p {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 12px;
-}
-
 circle:hover {
     fill: orange;
 }
@@ -58,13 +46,38 @@ circle:hover {
   width:900px;
   height:960px;
 }
-
+v
 </style>
 <body>
-<h3>English Premiership Football Team Tweet Counts</h3>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/navbar.css" >
 
-<p>Map of the UK showing the number of tweets per minute for each team in the Premiership for season 2013/2014.</p>
-<p>Hover over a team to view the total number of tweets.  The tweet count is automatically updated every minute.  The map can be zoomed and panned.</p>
+<div class="container">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Home</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="uk.html">Football Map</a></li>
+              <li><a href="cities.html">Twitter Trend Map</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+          </div>
+        </div>
+      </div>
+<div class="well">
+<h4>English Premiership Football Team Tweet Counts</h4>
+<p>Map of the UK showing the number of tweets per minute for each team in the Premiership for season 2013/2014.  Hover over a team to view the total number of tweets.  The tweet count is automatically updated every minute.  The map can be zoomed and panned. Click on a circle to open Twitter displaying the team's recent tweets.
+</div>
 <div id="map">
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
@@ -85,6 +98,18 @@ var projection = d3.geo.albers()
 var path = d3.geo.path()
     .projection(projection)
     .pointRadius(2);
+
+var tooltip = d3.select("body")
+.append("div")
+.style("position", "absolute")
+.style("z-index", "10")
+.style("font-family", "Helvetica Neue")
+.style("font-size", "11px")
+.style("background", "white")
+.style("border", "1px solid black")
+.style("border-radius", "5px")
+.style("padding", "3px")
+.style("visibility", "hidden");
 
 var svg = d3.select("#map").append("svg")
     .attr("width", width)
@@ -150,17 +175,24 @@ var draw = function(initial) {
 			              return projection([d.longitude, d.latitude])[1];
 			     })
 			     .attr("r", function(d) {
-					  return (Math.sqrt(parseInt(d.count) * 15));
+					  return (Math.sqrt(parseInt(d.count) * 10));
 			     })
 			     .attr("fill", "yellow")
 			     .style("opacity", 0.75)
 			     .style("stroke", "black")
 			     .style("stroke-width", 0.2)
 			     .style("stroke-opacity", 0.8)
-			     .append("title")
+			     .on("mouseover", function(d){
+			    	 tooltip.text(d.count+" tweets about "+d.name);
+			    	 return tooltip.style("visibility", "visible");
+			      })
+				 .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+				 .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+		    
+			     /* .append("title")
 			     .text(function(d) {
 			   		return d.count+" tweets about "+d.name;
-			     }); 
+			     }); */ 
 		    	
 			 g.selectAll("locationCircle")
 			    .data(data)
@@ -178,9 +210,12 @@ var draw = function(initial) {
 			     })
 		        .style("fill", "black")
 		        .style("opacity", 0.9)
-		        
-		        .append("svg:title")
-		   		.text(function(d) { return d.name; });
+			     .on("mouseover", function(d){
+			    	 tooltip.text(d.count+" tweets about "+d.name);
+			    	 return tooltip.style("visibility", "visible");
+			      })
+				 .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+				 .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 			 
 				g.selectAll("locationNames")
 			      .data(data)
@@ -203,7 +238,7 @@ var draw = function(initial) {
 			    	  }
 			    	  return textAnchor; 
 			      }) 
-			      .text(function(d) { return d.name; }); 
+			      .text(function(d) { return d.name; });
 				
 			return "translate(" + projection([d.long,d.lat]) + ")";	  
 	  }); 
@@ -266,6 +301,8 @@ svg.call(zoom);
 
 </script>
 </div>
-<p>Back to <a href="index.html">Maps Index</a>.</p>
+</div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </html>

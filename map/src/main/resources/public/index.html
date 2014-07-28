@@ -5,25 +5,57 @@
     <title>Aztec Technologies - Twitter Maps</title>
   </head>
 
-  <body>
-    <h1>Aztec Technologies Maps</h1>    
-     <h3>Web Pages:</h3>
-     <a href="cities.html">The Top Trending Twitter Topic</a>:
-     <BR>Displays the relative volume of Tweets around the UK on the current top trending Twitter topic.  Uses Spring's Twitter Template for the searches.  The tweet volumes are updated every 5 minutes.</td>
-     <BR><BR>
+ <body>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/navbar.css" >
+
+<div class="container">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Home</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="uk.html">Football Map</a></li>
+              <li><a href="cities.html">Twitter Trend Map</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+          </div>
+        </div>
+      </div>
+    
+     <h4>Maps:</h4>
      <a href="uk.html">Premiership Football Tweets</a>:
      <BR>Displays the number of tweets for each Premiership football club.  Connects to Twitter via the Streaming API, processing the tweets related to each club.  The tweet counts are updated every minute.</td>
-     <h3>GitHub:</h3>
-     <a href="https://github.com/rgolder1/aztec-map">https://github.com/rgolder1/aztec-map</a>
-     <h3>Technologies:</h3>
+     <BR><BR>
+     <a href="cities.html">The Top Trending Twitter Topic</a>:
+     <BR>Displays the relative volume of Tweets around the UK on the current top trending Twitter topic.  Uses Spring's Twitter Template for the searches.  The tweet volumes are updated every 5 minutes.</td>
+     <BR>
+     <h4>GitHub:</h4>
+     The full source is available at <a href="https://github.com/rgolder1/aztec-map" parent="_blank">https://github.com/rgolder1/aztec-map</a>
+     <BR>
+     <h4>Technologies:</h4>
      <ul>
      	<li>Spring Boot (for rapid development)</li>
-     	<li>d3 Javascript library (UI)</li>
+     	<li>d3 and Bootstrap Javascript libraries (UI)</li>
      	<li>Gradle (build)</li>
      	<li>Spring Social (Twitter integration): <ul><li>TwitterTemplate searches</li><li>Twitter's Streaming API</li></ul></li>
      	<li>Spring RESTful Web Services</li>
      	<li>Deployed on Cloud Foundry</li>
      	<li>Scribe (OAuth authentication)</li>
      </ul>
+     <h4>Affiliates:</h4>
+     This website is part of <a href="http://www.aztectechnologies.co.uk" parent="_blank">Aztec Technologies</a>.
+     </div>
   </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </html>

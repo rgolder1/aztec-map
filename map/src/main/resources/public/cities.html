@@ -37,17 +37,6 @@ text {
   pointer-events: none;
 }
 
-h3 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  font-type: bold;
-  pointer-events: none;
-}
-
-p {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 12px;
-}
 
 circle:hover {
     fill: orange;
@@ -61,9 +50,35 @@ circle:hover {
 
 </style>
 <body>
-<h3>Top Trending Twitter Topic - Tweet Volume By City</h3>
-<p>Map of the UK showing the relative volume of tweets around the country on the current top trending Twitter topic.  Hover over a city to view the top trending topic.</p>
-<p>The top trending topic is updated every 5 minutes.  The tweet count is updated every minute.  The updates automatically are reflected in the browser.  The map can be zoomed and panned.</p>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/navbar.css" >
+
+<div class="container">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Home</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="uk.html">Football Map</a></li>
+              <li class="active"><a href="cities.html">Twitter Trend Map</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+          </div>
+        </div>
+      </div>
+<div class="well">
+<h4>Top Trending Twitter Topic - Tweet Volume By City</h4>
+<p>Map of the UK showing the relative volume of tweets around the country on the current top trending Twitter topic.  Hover over a city to view the top trending topic.  The top trending topic is updated every 5 minutes.  The tweet count is updated every minute.  The updates automatically are reflected in the browser. The map can be zoomed and panned. Click on a circle to open Twitter displaying the top trend.</p>
+</div>
 <div id="map">
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
@@ -82,6 +97,18 @@ var projection = d3.geo.albers()
 var path = d3.geo.path()
     .projection(projection)
     .pointRadius(2);
+
+var tooltip = d3.select("body")
+.append("div")
+.style("position", "absolute")
+.style("z-index", "10")
+.style("font-family", "Helvetica Neue")
+.style("font-size", "11px")
+.style("background", "white")
+.style("border", "1px solid black")
+.style("border-radius", "5px")
+.style("padding", "3px")
+.style("visibility", "hidden");
 
 var svg = d3.select("#map").append("svg")
     .attr("width", width)
@@ -174,10 +201,16 @@ var draw = function(initial) {
 		     .style("stroke", "black")
 		     .style("stroke-width", 0.2)
 		     .style("stroke-opacity", 0.8)
-		     .append("title")
+		     .on("mouseover", function(d){
+		    	 tooltip.text(getTweet(d));
+		    	 return tooltip.style("visibility", "visible");
+		      })
+			 .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+			 .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+		     /* .append("title")
 		     .text(function(d) {
 		   		return getTweet(d);
-		     }); 
+		     }); */ 
 		   	   
 		  g.selectAll("locationCircle")
 		    .data(data)
@@ -247,6 +280,8 @@ svg.call(zoom);
 
 </script>
 </div>
-<p>Back to <a href="index.html">Maps Index</a>.</p>
+</div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </html>
