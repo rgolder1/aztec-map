@@ -23,8 +23,8 @@ Note that the Twitter app requires real credentials.  Update src/main/resources/
 
 twitter.api.key=foo
 twitter.api.secret=bar
-twitter.access.token=foo
-twitter.access.token.secret=bar
+twitter.access.token=foobar
+twitter.access.token.secret=barfoo
 
 ...substituting foo/bar with genuine credentials.  If necessary, create a new Twitter app here, to generate these credentials: https://dev.twitter.com/apps
 
@@ -33,7 +33,7 @@ Technologies:
 -------------
 
 - Spring Boot (for rapid development)
-- d3 Javascript library (UI)
+- d3 and Bootstrap Javascript libraries (UI)
 - Gradle (build)
 - Spring Social (Twitter)
  -- TwitterTemplate searches
@@ -41,27 +41,3 @@ Technologies:
 - Spring RESTful Web Services
 - Deployed on Cloud Foundry
 - Scribe (OAuth authentication)
-
-Notes:
-------
-
-d3 tutorial:
-http://chimera.labs.oreilly.com/books/1230000000345/pr01.html#_safari_books_online
-
-Make the UK map:
-
-Let's Make a Map:
-http://bost.ocks.org/mike/map/
-
-Make it interactive:
-
-Interactive Map with d3.js:
-http://www.tnoda.com/blog/2013-12-07
-
-GeoJSON:
-
-Chapter 12. Geomapping
-http://chimera.labs.oreilly.com/books/1230000000345/ch12.html#_projections
-
-Get latitude/longitude for a place using this tool:
-http://www.gpsvisualizer.com/geocoder/
