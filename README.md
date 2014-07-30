@@ -3,7 +3,7 @@ Aztec Technologies - Twitter Maps:
 
 A demo using the d3 javascript library to render a map of the UK, and plot locations and tweet volumes based on data received from Twitter.
 
-Integrates with Twitter via Spring Social.  Demonstrates both direct searches using TwitterTemplate (city.html) to search for the current top trending Twitter topic, and connects to the Streaming API (uk.html) to receive tweets on the current Premiership football teams, authenticating with the Scribe library.
+Integrates with Twitter via Spring Social.  Demonstrates both direct searches using TwitterTemplate (city.html) to search for the current top trending Twitter topic, and connects to the Streaming API (uk.html) to receive tweets on the English league football teams, authenticating with the Scribe library.
 
 This app is deployed on Pivotal's Cloud Foundry.
 
@@ -33,7 +33,7 @@ Technologies:
 -------------
 
 - Spring Boot (for rapid development)
-- d3 and Bootstrap Javascript libraries (UI)
+- d3, jQuery and Bootstrap Javascript libraries (UI)
 - Gradle (build)
 - Spring Social (Twitter)
  -- TwitterTemplate searches

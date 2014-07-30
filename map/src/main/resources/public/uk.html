@@ -1,7 +1,6 @@
-
 <!DOCTYPE html>
 <head>
-<title>English Premiership Football Team Tweet Counts</title>
+<title>English League Football Team Tweet Counts</title>
 </head>
 <meta charset="utf-8">
 <style type="text/css">
@@ -75,16 +74,37 @@ v
         </div>
       </div>
 <div class="well">
-<h4>English Premiership Football Team Tweet Counts</h4>
-<p>Map of the UK showing the number of tweets per minute for each team in the Premiership for season 2013/2014.  Hover over a team to view the total number of tweets.  The tweet count is automatically updated every minute.  The map can be zoomed and panned. Click on a circle to open Twitter displaying the team's recent tweets.
+<h4>English League Football Team Tweet Counts</h4>
+<p>Map of the UK showing the number of tweets per minute for teams in the English football leagues.  Roll over a team to view that team's total number of tweets.  The tweet count is automatically updated every minute.  The map can be zoomed and panned.  Select the league to display, or show all leagues on the map.  Click on a circle to open Twitter displaying the team's recent tweets.
 </div>
+
+<div class="btn-group" data-toggle="buttons" id="league-btns">
+  <label class="btn btn-default">
+    <input type="radio" name="options" id="league-radio-btn" value="all"> All </input>
+  </label>	
+  <label class="btn btn-default active">
+    <input type="radio" name="options" id="league-radio-btn" value="premiership" checked> Premiership </input>
+  </label>	
+  <label class="btn btn-default">
+    <input type="radio" name="options" id="league-radio-btn" value="championship"> Championship </input>
+  </label>
+</div>
+
+<BR><BR>
 <div id="map">
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
-<script>
-	
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$('#league-btns').change( function() {
+		  leagueName = $("input[id='league-radio-btn']:checked").val();
+          update();
+	});
+});
+
 var scale = 1;
-	
+
 var width = 900,
     height = 960;
 
@@ -117,31 +137,31 @@ var svg = d3.select("#map").append("svg")
 
 var g = svg.append("g");
 
-var draw = function(initial) {
+var draw = function(initial, league) {
 
 	d3.json("uk.json", function(error, uk) {
-		
+
 		if(initial) {
-			
+
 		  var subunits = topojson.feature(uk, uk.objects.subunits),
 		      places = topojson.feature(uk, uk.objects.places);
-		
+
 		  g.selectAll(".subunit")
 		      .data(subunits.features)
 		    .enter().append("path")
 		      .attr("class", function(d) { return "subunit " + d.id; })
 		      .attr("d", path);
-		
+
 		  g.append("path")
 		      .datum(topojson.mesh(uk, uk.objects.subunits, function(a, b) { return a !== b && a.id !== "IRL"; }))
 		      .attr("d", path)
 		      .attr("class", "subunit-boundary");
-		
+
 		  g.append("path")
 		      .datum(topojson.mesh(uk, uk.objects.subunits, function(a, b) { return a === b && a.id === "IRL"; }))
 		      .attr("d", path)
 		      .attr("class", "subunit-boundary IRL");
-		
+
 		  g.selectAll(".subunit-label")
 		      .data(subunits.features)
 		    .enter().append("text")
@@ -150,16 +170,16 @@ var draw = function(initial) {
 		      .attr("dy", ".35em")
 		      .text(function(d) { return d.properties.name; });    
 		}
-	      
-	   //d3.json("http://localhost:8080/data/teams", function(error, data) {
-	    d3.json("http://aztec.cfapps.io/data/teams", function(error, data) {
+
+	   //d3.json("http://localhost:8080/data/teams?league="+league, function(error, data) {
+	    d3.json("http://aztec.cfapps.io/data/teams?league="+league, function(error, data) {
 
 	    	if(!initial) {	    		
 	    		svg.selectAll("#locationNames").remove();			    
 	    		svg.selectAll("#twitterCountCircle").remove();	    
 	    		svg.selectAll("#locationCircle").remove();
 	    	}
-	    	
+
 		    g.selectAll("twitterCountCircle")
 			    .data(data.sort(function(a, b) { return b.count - a.count; }))
 			    .enter()
@@ -188,12 +208,7 @@ var draw = function(initial) {
 			      })
 				 .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
 				 .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
-		    
-			     /* .append("title")
-			     .text(function(d) {
-			   		return d.count+" tweets about "+d.name;
-			     }); */ 
-		    	
+
 			 g.selectAll("locationCircle")
 			    .data(data)
 			    .enter()
@@ -216,7 +231,7 @@ var draw = function(initial) {
 			      })
 				 .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
 				 .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
-			 
+
 				g.selectAll("locationNames")
 			      .data(data)
 			      .enter().append("text")
@@ -239,10 +254,10 @@ var draw = function(initial) {
 			    	  return textAnchor; 
 			      }) 
 			      .text(function(d) { return d.name; });
-				
+
 			return "translate(" + projection([d.long,d.lat]) + ")";	  
 	  }); 
-	  
+
 	});
 }
 
@@ -261,14 +276,16 @@ var locationLabelAlignX = function(data) {
 var locationNameTransform = function(data) {
 	return "translate(" + projection([data.longitude,data.latitude+(0.000005)]) + ")";
 }
-	
+
 var globalPollingInterval = 45000; // 45s = 45000ms
 
+var leagueName = 'premiership';
+
 var update = function() {
-    draw(false);
+    draw(false, leagueName);
     setTimeout(update, globalPollingInterval);
 }
-draw(true);
+draw(true, leagueName);
 setTimeout(update, globalPollingInterval);   
    
 var zoom = d3.behavior.zoom()
