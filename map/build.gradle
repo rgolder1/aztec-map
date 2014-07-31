@@ -32,7 +32,7 @@ cloudfoundry {
 	space = "development"
 	application = "aztectwittermap"
 	file = file("build/libs/map.war")
-	uri = "my-java-app.cfapps.io"
+	uri = "aztec.cfapps.io"
 	memory = 512
 	instances = 1
 }

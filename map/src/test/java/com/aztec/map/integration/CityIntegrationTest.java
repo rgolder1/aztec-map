@@ -1,4 +1,4 @@
-package com.aztec.service.integration;
+package com.aztec.map.integration;
 
 import static org.junit.Assert.assertEquals;
 
